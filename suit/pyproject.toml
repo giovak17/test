@@ -1,0 +1,9 @@
+[project]
+name = "servindtec_empresas"
+version = "0.1.0"
+description = "Modulo empresas ServidtecSuite"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+

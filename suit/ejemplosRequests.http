@@ -1,0 +1,152 @@
+http://localhost:8000/api/empresas/ | jq
+
+*** EMPRESAS ***
+
+GET /api/empresas
+Obtener todos los datos de todas las empresas.
+
+curl -v http://localhost:8000/api/empresas/ | jq
+
+GET /api/empresas/1
+Obtener datos de empresa por id.
+
+curl -v http://localhost:8000/api/empresas/1 | jq
+
+GET /api/empresas/1/trabajadores
+Obtener todos los trabajadores de una empresa.
+
+curl -v http://localhost:8000/api/empresas/1/trabajadores | jq
+
+
+POST /api/empresas
+Agregar empresa.
+
+curl -v -X POST \
+-H "Content-Type: application/json" \
+-d '{ 
+  "calle": "Avenida Naciones", 
+  "codigoPostal": "22288", 
+  "estado": "Baja California", 
+  "nombreComercial": "BC Solutions", 
+  "numero": "204JC", 
+  "pais": "Mexico", 
+  "rfc": "BCS123456789",
+  "tipoEmpresa": 1 
+}' \
+http://localhost:8000/api/empresas/ | jq
+
+
+PATCH /api/empresas/6
+Actualizar una empresa, pueden ser actualizaciones parciales de solo algunos campos o se puede actualizar la empresa entera.
+
+Actualizacion total de la empresa con ID 6: 
+curl -v -X PATCH \
+-H "Content-Type: application/json" \
+-d '{ 
+  "calle": "Calle Victoria", 
+  "id": 6,
+  "codigoPostal": "22293", 
+  "estado": "Sonora", 
+  "nombreComercial": "Sonora Tech", 
+  "numero": "101JC", 
+  "pais": "Mexico", 
+  "rfc": "STC12345678A",
+  "tipoEmpresa": 2
+}' \
+http://localhost:8000/api/empresas/77 | jq
+
+Actualizacion parcial de la empresa con ID 6, por ejemplo, solo se desea cambiar el nombre comercial y el codigo postal.
+curl -v -X PATCH \
+-H "Content-Type: application/json" \
+-d '{ 
+  "codigoPostal": "25511", 
+  "nombreComercial": "Modern Tech"
+}' \
+http://localhost:8000/api/empresas/6 | jq
+
+
+DELETE /api/empresas/6
+Eliminar una empresa por ID, ejemplo, empresa con ID:
+
+curl -v -X DELETE http://localhost:8000/api/empresas/6 | jq
+
+
+*** TRABAJADORES ***
+
+GET /api/trabajadores
+Obtener todos los datos de todos los trabajadores
+
+curl -v http://localhost:8000/api/trabajadores/ | jq
+
+GET /api/trabajadores/1
+Obtener datos de trabajador por codigo, los datos devueltos dependen del tipo de la empresa a la cual esta asignado el trabajador.
+
+curl -v http://localhost:8000/api/trabajadores/1 | jq
+
+GET /api/trabajadores/buscar?nombre=carlos
+Buscar trabajador(es) por nombre, apellido paterno o materno (el campo de cualquier manera debe llamarse nombre)
+
+curl -v http://localhost:8000/api/trabajadores/buscar?nombre=carlos | jq
+
+
+POST /api/trabajadores/
+Registrar trabajador. Se registra el trabajador con los datos que se consideren necesarios.
+
+curl -v -X POST \
+-H "Content-Type: application/json" \
+-d '{ 
+  "nombre": "Joaquin",
+  "apellidopat": "Camacho",
+  "apellidomat": "Martinez",
+  "calle": "Calle Independencia",
+  "codigopostal": "33222",
+  "correo": "camachomj.p@tech.com",
+  "empresa": 1,
+  "estado": "CDMX",
+  "modelo": "Lenovo Thinkpad",
+  "nombrepc": "PC-Joaquin",
+  "numero": "444",
+  "pais": "Mexico",
+  "passwordcorreo": "joaquin123"
+}' \
+http://localhost:8000/api/trabajadores/ | jq
+
+
+PATCH /api/trabajadores/11
+Actualizar un trabajador de manera total o parcial, segun su codigo.
+
+Actualizacion total:
+curl -v -X PATCH \
+-H "Content-Type: application/json" \
+-d '{ 
+  "nombre": "Gonzalo",
+  "apellidopat": "Herrera",
+  "apellidomat": "Garcia",
+  "calle": "Calle Innovacion",
+  "codigopostal": "22211",
+  "correo": "herreragj.p@tech.com",
+  "empresa": 1,
+  "estado": "CDMX",
+  "modelo": "Lenovo Ideapad",
+  "nombrepc": "PC-Gonzalo",
+  "numero": "444",
+  "pais": "Mexico",
+  "passwordcorreo": "gonzalo77"
+}' \
+http://localhost:8000/api/trabajadores/11 | jq
+
+curl -v -X PATCH \
+-H "Content-Type: application/json" \
+-d '{ 
+  "apellidopat": "Herrera",
+  "codigopostal": "22211"
+}' \
+http://localhost:8000/api/trabajadores/11 | jq
+
+
+
+DELETE /api/trabajadores/11
+Eliminar un trabajador segun su codigo de trabajador.
+
+curl -v -X DELETE http://localhost:8000/api/trabajadores/11 | jq
+
